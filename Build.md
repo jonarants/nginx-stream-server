@@ -17,3 +17,8 @@ rtmp://localhost/live
 ```bash
 http://localhost:8080/hls/test.m3u8
 ```
+
+Documentacion del player de HLS
+
+https://hlsjs.video-dev.org/api-docs/hls.js.hls
+

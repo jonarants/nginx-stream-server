@@ -1,22 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-    
-    <video id="my-video" class="video-js" controls preload="auto" width="640" height="360">
-      <source src="rtmp://localhost/live/test" type="rtmp/mp4">
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a
-        web browser that supports HTML5 video
-      </p>
-    </video>
-    
-    <script>
-      var player = videojs('my-video');
-      player.play();
-    </script>
-    
+<head>
+    <title>Reproductor HLS</title>
+    <style>
+        body { font-family: sans-serif; }
+        video { width: 100%; max-width: 640px; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Reproductor de Stream HLS</h1>
+    <video id="videoPlayer" controls autoplay></video>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        if (Hls.isSupported()) {
+            var video = document.getElementById('videoPlayer');
+            var hls = new Hls();
+            hls.loadSource('http://localhost:8080/hls/test.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+              console.log("Manifest cargado correctamente.");
+              // video.play(); // Se activó el autoplay en la etiqueta <video>
+            });
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                var errorType = data.type;
+                var errorDetails = data.details;
+                console.error("Error de HLS detectado:", errorType, errorDetails);
+                if (errorType === Hls.ErrorTypes.NETWORK_ERROR) {
+                    console.log("Intento de reconexión...");
+                    hls.startLoad();
+                } else if (errorType === Hls.ErrorTypes.MEDIA_ERROR) {
+                    hls.recoverMediaError();
+                }
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Si el navegador soporta HLS nativamente (como Safari)
+            video.src = 'http://localhost:8080/hls/test.m3u8';
+            video.addEventListener('loadedmetadata', function() {
+                // video.play(); // Se activó el autoplay en la etiqueta <video>
+            });
+        } else {
+            console.log('Este navegador no soporta HLS.');
+            document.body.innerHTML += '<p>Este navegador no soporta la reproducción de streams HLS.</p>';
+        }
+    </script>
+</body>
 </html>
