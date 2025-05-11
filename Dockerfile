@@ -1,8 +1,8 @@
 FROM buildpack-deps:bullseye
 
 # Versions of Nginx and nginx-rtmp-module to use
-ENV NGINX_VERSION nginx-1.23.2
-ENV NGINX_RTMP_MODULE_VERSION 1.2.2
+ENV NGINX_VERSION=nginx-1.23.2
+ENV NGINX_RTMP_MODULE_VERSION=1.2.2
 
 # Install dependencies
 RUN apt-get update && \
@@ -47,9 +47,15 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Creation of HLS path for segments
+
+RUN  mkdir -p /etc/nginx/stream/hls
+
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /etc/nginx/www/index.html
 
 EXPOSE 1935
+EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
