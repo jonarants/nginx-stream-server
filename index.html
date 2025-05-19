@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reproductor HLS</title>
+    <title>HLS Stream Test Player</title>
+
+    <link rel="stylesheet" href="style.css">
     <style>
-        body { font-family: sans-serif; }
-        video { width: 100%; max-width: 640px; height: auto; }
+        
     </style>
 </head>
 <body>
-    <h1>Reproductor de Stream HLS</h1>
-    <video id="videoPlayer" controls autoplay></video>
+    <header>
+        <h1>HLS Stream Test Player</h1>
+    </header>
+    <div class="player-container">
+        <video id="videoPlayer" controls autoplay></video>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>

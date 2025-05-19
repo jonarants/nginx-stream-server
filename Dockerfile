@@ -58,7 +58,7 @@ RUN  mkdir -p /etc/nginx/stream/hls
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /etc/nginx/www/index.html
 
-# Exposed ports for HLS
+# Exposed ports for HLS, RTMP and 80 for index
 EXPOSE 1935 
 EXPOSE 80
 EXPOSE 8080
