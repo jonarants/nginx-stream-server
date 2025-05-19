@@ -1,4 +1,4 @@
-FROM buildpack-deps:bullseye
+FROM buildpack-deps:noble-scm
 
 # Versions of Nginx and nginx-rtmp-module to use
 ENV NGINX_VERSION=nginx-1.23.2
@@ -7,6 +7,9 @@ ENV NGINX_RTMP_MODULE_VERSION=1.2.2
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y ca-certificates openssl libssl-dev && \
+    apt-get install -y build-essential &&\
+    apt-get install -y libpcre3-dev &&\
+    apt-get install -y zlib1g-dev &&\
     rm -rf /var/li  b/apt/lists/*
 
 # Download and decompress Nginx
@@ -55,7 +58,8 @@ RUN  mkdir -p /etc/nginx/stream/hls
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /etc/nginx/www/index.html
 
-EXPOSE 1935
+# Exposed ports for HLS
+EXPOSE 1935 
 EXPOSE 80
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
