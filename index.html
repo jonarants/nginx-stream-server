@@ -14,12 +14,21 @@
     </header>
     <div class="player-container">
         <video id="videoPlayer" controls autoplay></video>
+        <img id="load-banner" src="cat/cat.jpg" alt="Loading video...">
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        if (Hls.isSupported()) {
+        document.addEventListener('DOMContentLoaded', function() {
+            var loadingBanner = document.getElementById('load-banner');
             var video = document.getElementById('videoPlayer');
+        function hideLoadingBanner() {
+            if (loadingBanner) {
+                loadingBanner.style.display='none';
+            }
+        }
+
+        if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource('http://localhost:8080/hls/test.m3u8');
             hls.attachMedia(video);
