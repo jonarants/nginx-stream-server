@@ -30,13 +30,20 @@ body {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 50vw;
+            width: 30vw;
             height: auto;
             display: flex;
             transform: translate(-50%,-50%);
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        #loading-message {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #e1bee7;
+            font-size: 2000;
         }
 
         .player-container {
