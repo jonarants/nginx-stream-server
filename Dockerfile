@@ -57,6 +57,8 @@ RUN  mkdir -p /etc/nginx/stream/hls
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /etc/nginx/www/index.html
+COPY style.css /etc/nginx/www/style.css
+COPY /cat/cat.png /etc/nginx/www/cat/cat.png
 
 # Exposed ports for HLS, RTMP and 80 for index
 EXPOSE 1935 
